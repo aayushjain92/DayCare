@@ -28,5 +28,10 @@ namespace DayCare.Models
         {
             return $"Room number = {id}";
         }
+
+        public static Room getRoom(Student student)
+        {
+            return null;
+        }
     }
 }

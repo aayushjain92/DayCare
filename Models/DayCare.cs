@@ -10,15 +10,18 @@ namespace DayCare.Models
     public class DayCare
     {
         private static DayCare dayCare;
-        private List<Person> students { get; set; }
-        private List<Person> teachers { get; set; }
-        private List<Room> rooms { get; set; }
+        public HashSet<Person> students { get; set; }
+        public HashSet<Person> teachers { get; set; }
+        public HashSet<Room> rooms { get; set; }
+
+        public Dictionary<string, Group> groups { get; set; }
 
         private DayCare()
         {
-            rooms = new List<Room>();
-            students = new List<Person>();
-            teachers = new List<Person>();
+            rooms = new HashSet<Room>();
+            students = new HashSet<Person>();
+            teachers = new HashSet<Person>();
+            groups = Group.initializeGroups();
 
         }
 

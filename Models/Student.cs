@@ -7,12 +7,27 @@ namespace DayCare.Models
 {
     public class Student : Person
     {
-        public static int x = 200101;
-        public int id { get; set; }
-        public string parent;
+        private static int x = 200101;
+        private int id { get; set; }
+
+        private string parent;
+        private Person teacher { get; set; }
+        private Room room { get; set; }
 
         public Student() {
             id = x++;
+            teacher = assignTeacher();
+            room = assignRoom();           
+        }
+
+        public Person assignTeacher()
+        {
+            return Teacher.getTeacher(this);           
+        }
+
+        public Room assignRoom()
+        {
+            return Room.getRoom(this);
         }
 
 

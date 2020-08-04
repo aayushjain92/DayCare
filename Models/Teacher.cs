@@ -9,6 +9,8 @@ namespace DayCare.Models
     {
         private static int x = 500101;
         private int id { get; set; }
+        public HashSet<Person> students { get; set; }
+
 
 
         public Teacher()
@@ -22,11 +24,20 @@ namespace DayCare.Models
             this.age = age;
             this.firstName = fname;
             this.lastName = lname;
+            
         }
 
         public override string ToString()
         {
             return $"# {id}";
+        }
+
+        public static Person getTeacher(Student student)
+        {
+            DayCare daycare = DayCare.getInstance();
+            
+            return null;
+
         }
     }
 }

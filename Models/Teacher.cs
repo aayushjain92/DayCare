@@ -10,8 +10,7 @@ namespace DayCare.Models
         private static int x = 500101;
         private int id { get; set; }
         public HashSet<Person> students { get; set; }
-
-
+        public Room room { get; set; }
 
         public Teacher()
         {
@@ -24,7 +23,16 @@ namespace DayCare.Models
             this.age = age;
             this.firstName = fname;
             this.lastName = lname;
-            
+        }
+
+        public static Room assignRoom(Person stu, Person t)
+        {
+            Student student = (Student)stu;
+            Teacher teacher = (Teacher)t;
+            int studentAgeInMonths = ((DateTime.Now.Year - student.dob.Year) * 12) + DateTime.Now.Month - student.dob.Month;
+            Room r = Room.getRoom(studentAgeInMonths, t);
+            teacher.room = r;
+            return r;
         }
 
         public override string ToString()
@@ -32,10 +40,45 @@ namespace DayCare.Models
             return $"# {id}";
         }
 
-        public static Person getTeacher(Student student)
+        
+
+        public static Person assignTeacher(Student student)
         {
             DayCare daycare = DayCare.getInstance();
-            
+            int studentAgeInMonths = ((DateTime.Now.Year - student.dob.Year) * 12) + DateTime.Now.Month - student.dob.Month;
+
+            HashSet<Person> groupTeachers = null;
+            String group = GroupByAge.findGroup(studentAgeInMonths);
+            GroupByAge value;
+
+            if (daycare.groups.TryGetValue(group, out value)) {
+                groupTeachers = value.teachers;
+            }
+
+            foreach (Person teacher in groupTeachers) {
+                Teacher t = (Teacher)teacher;
+                if (t.students.Count < value.groupSize)
+                {
+                    t.students.Add(student);
+                    return t;
+                }
+               
+            }
+
+            HashSet<Person> availableTeachers = null;
+            // if the teacher was not assigned
+            if (daycare.groups.TryGetValue("availableResources", out GroupByAge res)) {
+                availableTeachers = res.teachers;
+            }
+            foreach (Person teacher in availableTeachers)
+            {
+                availableTeachers.Remove(teacher);
+                groupTeachers.Add(teacher);
+                Teacher t = (Teacher)teacher;
+                t.students.Add(student);               
+                return t;
+            }
+
             return null;
 
         }

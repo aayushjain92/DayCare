@@ -11,7 +11,7 @@ namespace DayCare.Models
         private int id { get; set; }
         public HashSet<Person> students { get; set; }
 
-
+        int capacity;
 
         public Teacher()
         {
@@ -35,8 +35,27 @@ namespace DayCare.Models
         public static Person getTeacher(Student student)
         {
             DayCare daycare = DayCare.getInstance();
+            int studentAgeInMonths = ((DateTime.Now.Year - student.dob.Year) * 12) + DateTime.Now.Month - student.dob.Month;
+
+            Boolean assigned = false;
+            Person assignedTeacher = null; 
+            HashSet<Person> teachers;
+            String group = GroupByAge.findGroup(studentAgeInMonths);
             
-            return null;
+            if(daycare.groups.TryGetValue(group, out GroupByAge value)) {
+                teachers = value.teachers;
+            }
+
+            foreach (Person teacher in teachers) {
+
+            }
+
+            if(!assigned)
+            {
+
+            }
+                
+            return assignedTeacher;
 
         }
     }

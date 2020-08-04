@@ -14,14 +14,14 @@ namespace DayCare.Models
         public HashSet<Person> teachers { get; set; }
         public HashSet<Room> rooms { get; set; }
 
-        public Dictionary<string, Group> groups { get; set; }
+        public Dictionary<string, GroupByAge> groups { get; set; }
 
         private DayCare()
         {
             rooms = new HashSet<Room>();
             students = new HashSet<Person>();
             teachers = new HashSet<Person>();
-            groups = Group.initializeGroups();
+            groups = GroupByAge.initializeGroups();
 
         }
 

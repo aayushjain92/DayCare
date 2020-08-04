@@ -11,23 +11,23 @@ namespace DayCare.Models
         private int id { get; set; }
 
         private string parent;
-        private Person teacher { get; set; }
-        private Room room { get; set; }
+        public Person teacher { get; set; }
+        public Room room { get; set; }
 
         public Student() {
             id = x++;
             teacher = assignTeacher();
-            room = assignRoom();           
+            room = assignRoom(teacher);           
         }
 
         public Person assignTeacher()
         {
-            return Teacher.getTeacher(this);           
+            return Teacher.assignTeacher(this);           
         }
 
-        public Room assignRoom()
+        public Room assignRoom(Person teacher)
         {
-            return Room.getRoom(this);
+            return Teacher.assignRoom(this, teacher);
         }
 
 

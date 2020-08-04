@@ -12,16 +12,16 @@ namespace DayCare.Models
         private static DayCare dayCare;
         public HashSet<Person> students { get; set; }
         public HashSet<Person> teachers { get; set; }
-        public HashSet<Room> rooms { get; set; }
+        public Dictionary<string, HashSet<Room>> rooms { get; set; }
 
-        public Dictionary<string, Group> groups { get; set; }
+        public Dictionary<string, GroupByAge> groups { get; set; }
 
         private DayCare()
         {
-            rooms = new HashSet<Room>();
             students = new HashSet<Person>();
             teachers = new HashSet<Person>();
-            groups = Group.initializeGroups();
+            groups = GroupByAge.initializeGroups();
+            rooms = Room.initializeRooms();
 
         }
 

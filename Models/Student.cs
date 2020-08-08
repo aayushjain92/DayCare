@@ -8,27 +8,18 @@ namespace DayCare.Models
     public class Student : Person
     {
         private static int x = 200101;
-        private int id { get; set; }
+        public int id { get; set; }
 
         private string parent;
         public Person teacher { get; set; }
         public Room room { get; set; }
-
+        public DateTime date_of_joining { get; set; } 
         public Student() {
             id = x++;
-            teacher = assignTeacher();
-            room = assignRoom(teacher);           
+            date_of_joining = DateTime.Today;
         }
 
-        public Person assignTeacher()
-        {
-            return Teacher.assignTeacher(this);           
-        }
-
-        public Room assignRoom(Person teacher)
-        {
-            return Teacher.assignRoom(this, teacher);
-        }
+      
 
 
         public override string ToString()

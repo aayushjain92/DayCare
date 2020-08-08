@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DayCare.Models;
+using DayCare.DAO;
 
 namespace DayCare.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private Student p;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,6 +21,7 @@ namespace DayCare.Controllers
 
         public IActionResult Index()
         {
+            TeacherDAO.readFile();
             return View();
         }
 
@@ -32,21 +34,50 @@ namespace DayCare.Controllers
         {
             return View();
         }
+        public IActionResult Reviewform()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Reviewform(string studentId)
+        {
+            ReviewForm r = new ReviewForm();
+            r.studentID = HttpContext.Request.Form["id"];
+            r.teacherName = HttpContext.Request.Form["teacher"];
+            r.feedback = HttpContext.Request.Form["feedback"];
+            ReviewDAO.save(r);
+
+
+            return View();
+        }
+
         [HttpPost]
         public IActionResult formoutput()
         {
-            Person p = Factory.Get("STUDENT");
+            p = (Student)Factory.Get("STUDENT");
             p.firstName = HttpContext.Request.Form["first_name"];
             p.lastName = HttpContext.Request.Form["last_name"];
-            p.phone = Convert.ToInt32(HttpContext.Request.Form["phone"]);
+            p.phone = Convert.ToInt64(HttpContext.Request.Form["phone"]);
             p.email = HttpContext.Request.Form["Email"];
             p.password = HttpContext.Request.Form["password"];
-            p.age = Convert.ToInt32(HttpContext.Request.Form["Age"]);
-
+            p.date_of_birth = Convert.ToDateTime(HttpContext.Request.Form["DateOfBirth"]);
+            p.age = p.Age(p.date_of_birth);
+           
             DayCare.DAO.PersonDAO.save(p);
-       
-            return Content(HttpContext.Request.Form["s_name"]);
+
+            p.teacher = Teacher.assignTeacher(p);
+            p.room = Teacher.assignRoom(p, p.teacher);
+            ViewBag.student = p;
+            return View();
+
         }
+        public IActionResult Output()
+        {
+
+            ViewData["myperson"] = p;
+            return View();
+        }
+
         public IActionResult Login()
         {
             return View();
@@ -58,5 +89,6 @@ namespace DayCare.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

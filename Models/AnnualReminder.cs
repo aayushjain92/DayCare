@@ -68,7 +68,7 @@ namespace DayCare.Models
                         smtp.EnableSsl = true;
                         System.Net.NetworkCredential credentials = new System.Net.NetworkCredential();
                         credentials.UserName = "gargnupur740@gmail.com";
-                        credentials.Password = "Nupur@0330";
+                        credentials.Password = "";
                         smtp.UseDefaultCredentials = true;
                         smtp.Credentials = credentials;
                         smtp.Port = 587;

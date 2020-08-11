@@ -7,7 +7,7 @@
 * Assign a room to the teacher (according to max-student-groups per room daycare policies)
 * Track annual registration renewal
 * Track immunization anniversaries
-* Immunization reminders to parents as per state health guidelines
+* Immunization reminders to parents
 * Check Student's Immunization Record
 * Notification email for upcoming/overdue dates
 * Annual employee review
